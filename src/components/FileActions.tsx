@@ -1,5 +1,4 @@
-// src/components/FileActions.tsx
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import { open } from "@tauri-apps/api/dialog";
 import { readTextFile, writeTextFile } from "@tauri-apps/api/fs";
 
@@ -23,15 +22,15 @@ const FileActions: React.FC<FileActionsProps> = ({
         filters: [
           {
             name: "Text Files",
-            extensions: ["txt", "md", "json"],
+            extensions: ["md"],
           },
         ],
       });
 
       if (selectedFile) {
         const fileContent = await readTextFile(selectedFile as string);
-        setText(fileContent); // Update the text state
-        setFilePath(selectedFile as string); // Set the file path
+        setText(fileContent);
+        setFilePath(selectedFile as string);
       }
     } catch (error) {
       console.error("Error opening file:", error);
