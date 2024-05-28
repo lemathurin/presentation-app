@@ -1,12 +1,15 @@
 import { invoke } from "@tauri-apps/api/tauri";
+import { Button } from "@/components/ui/button";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export default function InitialApp() {
   return (
-    <div>
-      <h1>Initial App</h1>
-      <p>Does this work?</p>
-
-      <button onClick={() => invoke("open_main_window")}>Test command</button>
-    </div>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <div className="w-screen h-screen p-8">
+        <Button onClick={() => invoke("open_main_window")}>
+          New presentation
+        </Button>
+      </div>
+    </ThemeProvider>
   );
 }

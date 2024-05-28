@@ -40,9 +40,12 @@
       {
         "label": "initial",
         "title": "Create New File",
-        "width": 400,
-        "height": 300,
-        "url": "initial.html"
+        "width": 700,
+        "height": 500,
+        "url": "initial.html",
+        "center": true,
+        "resizable": false,
+        "titleBarStyle": "Overlay"
       },
       {
         "label": "main",
