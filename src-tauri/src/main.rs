@@ -14,7 +14,7 @@
 //         .expect("error while running tauri application");
 // }
 
-use tauri::{Manager, WindowBuilder};
+use tauri::Manager;
 
 fn main() {
     tauri::Builder::default()
@@ -25,7 +25,7 @@ fn main() {
 
 #[tauri::command]
 fn open_main_window(app: tauri::AppHandle) {
-    let main_window = app.get_window("main").unwrap(); // Use "main" instead of "index"
+    let main_window = app.get_window("main").unwrap();
     main_window.show().unwrap();
     app.get_window("initial").unwrap().close().unwrap();
 }
