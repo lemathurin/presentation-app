@@ -38,9 +38,19 @@
     },
     "windows": [
       {
-        "title": "presentation app",
+        "label": "initial",
+        "title": "Create New File",
+        "width": 400,
+        "height": 300,
+        "url": "initial.html"
+      },
+      {
+        "label": "main",
+        "title": "Presentation App",
         "width": 800,
-        "height": 600
+        "height": 600,
+        "url": "index.html",
+        "visible": false
       }
     ],
     "security": {
