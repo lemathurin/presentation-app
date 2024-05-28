@@ -6,7 +6,7 @@ export default function InitialApp() {
       <h1>Initial App</h1>
       <p>Does this work?</p>
 
-      <button onClick={() => invoke("my_custom_command")}>Test command</button>
+      <button onClick={() => invoke("open_main_window")}>Test command</button>
     </div>
   );
 }

@@ -14,31 +14,31 @@
 //         .expect("error while running tauri application");
 // }
 
-// use tauri::{Manager, WindowBuilder};
-
-// fn main() {
-//     tauri::Builder::default()
-//         .invoke_handler(tauri::generate_handler![open_main_window])
-//         .run(tauri::generate_context!())
-//         .expect("error while running tauri application");
-// }
-
-// #[tauri::command]
-// fn open_main_window(app: tauri::AppHandle) {
-//     let main_window = app.get_window("main").unwrap(); // Use "main" instead of "index"
-//     main_window.show().unwrap();
-//     app.get_window("initial").unwrap().close().unwrap();
-// }
-
-#[tauri::command]
-fn my_custom_command() {
-    println!("I was invoked from JS!");
-}
+use tauri::{Manager, WindowBuilder};
 
 fn main() {
     tauri::Builder::default()
-        // This is where you pass in your commands
-        .invoke_handler(tauri::generate_handler![my_custom_command])
+        .invoke_handler(tauri::generate_handler![open_main_window])
         .run(tauri::generate_context!())
-        .expect("failed to run app");
+        .expect("error while running tauri application");
 }
+
+#[tauri::command]
+fn open_main_window(app: tauri::AppHandle) {
+    let main_window = app.get_window("main").unwrap(); // Use "main" instead of "index"
+    main_window.show().unwrap();
+    app.get_window("initial").unwrap().close().unwrap();
+}
+
+// #[tauri::command]
+// fn my_custom_command() {
+//     println!("I was invoked from JS!");
+// }
+
+// fn main() {
+//     tauri::Builder::default()
+//         // This is where you pass in your commands
+//         .invoke_handler(tauri::generate_handler![my_custom_command])
+//         .run(tauri::generate_context!())
+//         .expect("failed to run app");
+// }
