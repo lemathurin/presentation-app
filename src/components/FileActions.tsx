@@ -1,12 +1,5 @@
-import { open } from "@tauri-apps/api/dialog";
+import { open, save } from "@tauri-apps/api/dialog";
 import { readTextFile, writeTextFile } from "@tauri-apps/api/fs";
-
-interface FileActionsProps {
-  text: string;
-  setText: React.Dispatch<React.SetStateAction<string>>;
-  filePath: string | null;
-  setFilePath: React.Dispatch<React.SetStateAction<string | null>>;
-}
 
 export const handleOpenFile = async (
   setText: React.Dispatch<React.SetStateAction<string>>,
@@ -43,5 +36,33 @@ export const handleSaveFile = async (text: string, filePath: string | null) => {
     }
   } catch (error) {
     console.error("Error saving file:", error);
+  }
+};
+
+export const handleCreateFile = async (
+  setText: React.Dispatch<React.SetStateAction<string>>,
+  setFilePath: React.Dispatch<React.SetStateAction<string | null>>
+) => {
+  try {
+    const newFilePath = await save({
+      filters: [
+        {
+          name: "Markdown Files",
+          extensions: ["md"],
+        },
+      ],
+    });
+
+    if (newFilePath) {
+      await writeTextFile(
+        newFilePath,
+        "# New Markdown File\n\nStart writing your content here..."
+      );
+      setText("# New Markdown File\n\nStart writing your content here...");
+      setFilePath(newFilePath);
+      console.log("New file created:", newFilePath);
+    }
+  } catch (error) {
+    console.error("Error creating file:", error);
   }
 };
