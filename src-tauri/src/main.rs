@@ -24,10 +24,19 @@ fn main() {
 }
 
 #[tauri::command]
-fn open_main_window(app: tauri::AppHandle) {
+fn open_main_window(app: tauri::AppHandle, file_path: Option<String>) {
     let main_window = app.get_window("main").unwrap();
     main_window.show().unwrap();
     app.get_window("initial").unwrap().close().unwrap();
+
+    if let Some(path) = file_path {
+        main_window
+            .eval(&format!(
+                "window.__TAURI__.invoke('load_file', {{ filePath: '{}' }})",
+                path
+            ))
+            .unwrap();
+    }
 }
 
 // #[tauri::command]

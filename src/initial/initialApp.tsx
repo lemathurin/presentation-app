@@ -9,8 +9,10 @@ export default function InitialApp() {
   const [filePath, setFilePath] = useState<string | null>(null);
 
   const handleCreateFileAndOpenWindow = async () => {
-    await handleCreateFile(setText, setFilePath);
-    await invoke("open_main_window");
+    const newFilePath = await handleCreateFile(setText, setFilePath);
+    if (newFilePath) {
+      await invoke("open_main_window", { filePath: newFilePath });
+    }
   };
 
   return (

@@ -62,7 +62,9 @@ export const handleCreateFile = async (
       setFilePath(newFilePath);
       console.log("New file created:", newFilePath);
     }
+    return newFilePath;
   } catch (error) {
     console.error("Error creating file:", error);
+    return null;
   }
 };
