@@ -8,19 +8,33 @@ import {
 } from "@/components/ui/resizable";
 import { TopBar } from "./components/top-bar";
 import TextEditor from "./components/text-editor";
-import { handleOpenFile, handleSaveFile } from "./components/FileActions";
+import { handleSaveFile } from "./components/FileActions";
 import { Button } from "./components/ui/button";
 import { listen } from "@tauri-apps/api/event";
+import { readTextFile } from "@tauri-apps/api/fs";
 
 function App() {
   const [text, setText] = useState<string>("");
   const [filePath, setFilePath] = useState<string | null>(null);
+  useEffect(() => {
+    if (filePath) {
+      // Load file content when filePath changes
+      readTextFile(filePath)
+        .then((fileContent) => {
+          setText(fileContent);
+        })
+        .catch((error) => {
+          console.error("Error loading file:", error);
+        });
+    }
+  }, [filePath]);
 
   // Define a function to handle file path messages
   function handleFilePath(filePath: string | null) {
     if (filePath) {
       console.log("Received file path:", filePath);
-      // Do something with the file path, such as updating state or displaying it in your UI
+      // Update the state with the received file path
+      setFilePath(filePath);
     } else {
       console.log("No file path received.");
       // Handle the case where no file path is received
@@ -43,9 +57,6 @@ function App() {
             {/* add this later collapsible={true} */}
             <div className="flex items-center justify-center h-full bg-secondary">
               <ModeToggle />
-              <Button onClick={() => handleOpenFile(setText, setFilePath)}>
-                Open File
-              </Button>
               <Button onClick={() => handleSaveFile(text, filePath)}>
                 Save File
               </Button>
