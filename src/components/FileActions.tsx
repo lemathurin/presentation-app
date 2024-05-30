@@ -60,7 +60,7 @@ export const handleCreateFile = async (
       );
       setText("# New Markdown File\n\nStart writing your content here...");
       setFilePath(newFilePath);
-      console.log("New file created:", newFilePath);
+      // console.log("New file created:", newFilePath);
     }
     return newFilePath;
   } catch (error) {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/mode-toggle";
 import {
@@ -15,6 +15,22 @@ import { listen } from "@tauri-apps/api/event";
 function App() {
   const [text, setText] = useState<string>("");
   const [filePath, setFilePath] = useState<string | null>(null);
+
+  // Define a function to handle file path messages
+  function handleFilePath(filePath: string | null) {
+    if (filePath) {
+      console.log("Received file path:", filePath);
+      // Do something with the file path, such as updating state or displaying it in your UI
+    } else {
+      console.log("No file path received.");
+      // Handle the case where no file path is received
+    }
+  }
+
+  // Listen for file path messages from the backend
+  listen("file_path", (event) => {
+    handleFilePath(event.payload as string | null);
+  });
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">

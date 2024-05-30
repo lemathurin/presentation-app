@@ -25,18 +25,26 @@ fn main() {
 
 #[tauri::command]
 fn open_main_window(app: tauri::AppHandle, file_path: Option<String>) {
+    if let Some(ref path) = file_path {
+        println!("Received file path: {}", path);
+        app.emit_all("file_path", Some(path.clone()))
+            .expect("Failed to send file path");
+    } else {
+        println!("No file path received.");
+    }
+
     let main_window = app.get_window("main").unwrap();
     main_window.show().unwrap();
     app.get_window("initial").unwrap().close().unwrap();
 
-    if let Some(path) = file_path {
-        main_window
-            .eval(&format!(
-                "window.__TAURI__.invoke('load_file', {{ filePath: '{}' }})",
-                path
-            ))
-            .unwrap();
-    }
+    // if let Some(path) = file_path {
+    //     main_window
+    //         .eval(&format!(
+    //             "window.__TAURI__.invoke('load_file', {{ filePath: '{}' }})",
+    //             path
+    //         ))
+    //         .unwrap();
+    // }
 }
 
 // #[tauri::command]
