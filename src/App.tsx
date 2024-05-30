@@ -8,7 +8,9 @@ import {
 } from "@/components/ui/resizable";
 import { TopBar } from "./components/top-bar";
 import TextEditor from "./components/text-editor";
-import FileActions from "./components/FileActions";
+// import FileActions from "./components/FileActions";
+import { handleOpenFile, handleSaveFile } from "./components/FileActions";
+import { Button } from "./components/ui/button";
 
 function App() {
   const [text, setText] = useState<string>("");
@@ -24,14 +26,20 @@ function App() {
           <ResizablePanel defaultSize={25} minSize={20} maxSize={40}>
             {/* add this later collapsible={true} */}
             <div className="flex items-center justify-center h-full bg-secondary">
-              <span className="font-semibold">One</span>
+              {/* <span className="font-semibold">One</span> */}
               <ModeToggle />
-              <FileActions
+              {/* <FileActions
                 text={text}
                 setText={setText}
                 filePath={filePath}
                 setFilePath={setFilePath}
-              />
+              /> */}
+              <Button onClick={() => handleOpenFile(setText, setFilePath)}>
+                Open File
+              </Button>
+              <Button onClick={() => handleSaveFile(text, filePath)}>
+                Save File
+              </Button>
             </div>
           </ResizablePanel>
           <ResizableHandle />
