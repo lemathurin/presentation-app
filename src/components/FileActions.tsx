@@ -21,8 +21,10 @@ export const handleOpenFile = async (
       setText(fileContent);
       setFilePath(selectedFile as string);
     }
+    return selectedFile;
   } catch (error) {
     console.error("Error opening file:", error);
+    return null;
   }
 };
 
