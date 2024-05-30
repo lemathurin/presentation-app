@@ -22,7 +22,7 @@
         "confirm": true,
         "message": true,
         "open": true,
-        "save": true 
+        "save": true
       },
       "fs": {
         "readFile": true,
@@ -44,8 +44,7 @@
         "height": 500,
         "url": "initial.html",
         "center": true,
-        "resizable": false,
-        "titleBarStyle": "Overlay"
+        "resizable": false
       },
       {
         "label": "main",

@@ -13,11 +13,36 @@
 //         .run(tauri::generate_context!())
 //         .expect("error while running tauri application");
 // }
-
-use tauri::Manager;
+use tauri::{CustomMenuItem, Manager, Menu, MenuItem, Submenu};
 
 fn main() {
+    // Define the menu items
+    let new_file = CustomMenuItem::new("new_file".to_string(), "Create New File");
+    let open_file = CustomMenuItem::new("open_file".to_string(), "Open File");
+
+    // Define the 'File' submenu
+    let file_submenu = Submenu::new("File", Menu::new().add_item(new_file).add_item(open_file));
+
+    // Define the main menu
+    let menu = Menu::new()
+        .add_native_item(MenuItem::Copy)
+        .add_submenu(file_submenu);
+
     tauri::Builder::default()
+        .menu(menu)
+        .on_menu_event(|event| {
+            match event.menu_item_id() {
+                "new_file" => {
+                    println!("Create New File clicked");
+                    // Here you can add your logic to create a new file
+                }
+                "open_file" => {
+                    println!("Open File clicked");
+                    // Here you can add your logic to open a file
+                }
+                _ => {}
+            }
+        })
         .invoke_handler(tauri::generate_handler![open_main_window])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -36,15 +61,6 @@ fn open_main_window(app: tauri::AppHandle, file_path: Option<String>) {
     let main_window = app.get_window("main").unwrap();
     main_window.show().unwrap();
     app.get_window("initial").unwrap().close().unwrap();
-
-    // if let Some(path) = file_path {
-    //     main_window
-    //         .eval(&format!(
-    //             "window.__TAURI__.invoke('load_file', {{ filePath: '{}' }})",
-    //             path
-    //         ))
-    //         .unwrap();
-    // }
 }
 
 // #[tauri::command]
