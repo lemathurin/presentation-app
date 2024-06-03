@@ -15,6 +15,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ text, setText }) => {
       className="w-[90%] h-[90%] bg-red-300"
       value={text}
       onChange={handleChange}
+      placeholder="Type something..."
     />
   );
 };
