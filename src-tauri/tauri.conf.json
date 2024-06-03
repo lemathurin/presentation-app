@@ -34,6 +34,9 @@
         "removeFile": true,
         "renameFile": true,
         "exists": true
+      },
+      "globalShortcut": {
+        "all": true
       }
     },
     "windows": [

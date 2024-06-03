@@ -35,6 +35,7 @@ fn main() {
             .add_native_item(MenuItem::Hide)
             .add_native_item(MenuItem::HideOthers)
             .add_native_item(MenuItem::ShowAll)
+            .add_native_item(MenuItem::Separator)
             .add_native_item(MenuItem::Quit),
     );
 
@@ -67,6 +68,18 @@ fn main() {
                 "open_file" => {
                     println!("Open File clicked");
                     // Here you can add your logic to open a file
+                }
+                "save_file" => {
+                    println!("Save File clicked");
+                    event
+                        .window()
+                        .emit("save_file", None::<()>)
+                        .expect("Failed to emit save_file event");
+                    // Here you can add your logic to save a file
+                }
+                "close_file" => {
+                    println!("Close File clicked");
+                    // Here you can add your logic to close a file
                 }
                 "about" => {
                     println!("About MyApp clicked");

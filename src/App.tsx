@@ -16,6 +16,7 @@ import { readTextFile } from "@tauri-apps/api/fs";
 function App() {
   const [text, setText] = useState<string>("");
   const [filePath, setFilePath] = useState<string | null>(null);
+
   useEffect(() => {
     if (filePath) {
       // Load file content when filePath changes
@@ -45,6 +46,31 @@ function App() {
   listen("file_path", (event) => {
     handleFilePath(event.payload as string | null);
   });
+
+  useEffect(() => {
+    const unlistenFilePath = listen("file_path", (event) => {
+      handleFilePath(event.payload as string | null);
+    });
+
+    const unlistenSaveFile = listen("save_file", () => {
+      if (filePath) {
+        handleSaveFile(text, filePath)
+          .then(() => {
+            console.log("File saved successfully.");
+          })
+          .catch((error) => {
+            console.error("Error saving file:", error);
+          });
+      } else {
+        console.log("No file path to save.");
+      }
+    });
+
+    return () => {
+      unlistenFilePath.then((unlisten) => unlisten());
+      unlistenSaveFile.then((unlisten) => unlisten());
+    };
+  }, [text, filePath]);
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
