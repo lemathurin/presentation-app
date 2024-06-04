@@ -74,3 +74,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+body {
+  user-select: none;
+  cursor: default;
+  overflow: hidden;
+}

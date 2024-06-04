@@ -13,11 +13,85 @@
 //         .run(tauri::generate_context!())
 //         .expect("error while running tauri application");
 // }
-
-use tauri::Manager;
+use tauri::{CustomMenuItem, Manager, Menu, MenuItem, Submenu};
 
 fn main() {
+    // Define the menu items
+    let about = CustomMenuItem::new("about".to_string(), "About MyApp");
+    let settings = CustomMenuItem::new("settings".to_string(), "Settings");
+
+    let new_file = CustomMenuItem::new("new_file".to_string(), "Create New File");
+    let open_file = CustomMenuItem::new("open_file".to_string(), "Open File");
+    let save_file = CustomMenuItem::new("save_file".to_string(), "Save File");
+    let close_file = CustomMenuItem::new("close_file".to_string(), "Close File");
+
+    // Define the 'App' submenu
+    let app_submenu = Submenu::new(
+        "MyApp",
+        Menu::new()
+            .add_item(about)
+            .add_item(settings)
+            .add_native_item(MenuItem::Separator)
+            .add_native_item(MenuItem::Hide)
+            .add_native_item(MenuItem::HideOthers)
+            .add_native_item(MenuItem::ShowAll)
+            .add_native_item(MenuItem::Separator)
+            .add_native_item(MenuItem::Quit),
+    );
+
+    // Define the 'File' submenu
+    let file_submenu = Submenu::new(
+        "File",
+        Menu::new()
+            .add_item(new_file)
+            .add_item(open_file)
+            .add_item(save_file)
+            .add_item(close_file)
+            .add_native_item(MenuItem::Separator)
+            .add_native_item(MenuItem::CloseWindow),
+    );
+
+    // Define the main menu
+    let menu = Menu::new()
+        .add_submenu(app_submenu)
+        .add_submenu(file_submenu)
+        .add_native_item(MenuItem::Copy);
+
     tauri::Builder::default()
+        .menu(menu)
+        .on_menu_event(|event| {
+            match event.menu_item_id() {
+                "new_file" => {
+                    println!("Create New File clicked");
+                    // Here you can add your logic to create a new file
+                }
+                "open_file" => {
+                    println!("Open File clicked");
+                    // Here you can add your logic to open a file
+                }
+                "save_file" => {
+                    println!("Save File clicked");
+                    event
+                        .window()
+                        .emit("save_file", None::<()>)
+                        .expect("Failed to emit save_file event");
+                    // Here you can add your logic to save a file
+                }
+                "close_file" => {
+                    println!("Close File clicked");
+                    // Here you can add your logic to close a file
+                }
+                "about" => {
+                    println!("About MyApp clicked");
+                    // Here you can add your logic for the About action
+                }
+                "settings" => {
+                    println!("Settings clicked");
+                    // Here you can add your logic for the Settings action
+                }
+                _ => {}
+            }
+        })
         .invoke_handler(tauri::generate_handler![open_main_window])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -36,15 +110,6 @@ fn open_main_window(app: tauri::AppHandle, file_path: Option<String>) {
     let main_window = app.get_window("main").unwrap();
     main_window.show().unwrap();
     app.get_window("initial").unwrap().close().unwrap();
-
-    // if let Some(path) = file_path {
-    //     main_window
-    //         .eval(&format!(
-    //             "window.__TAURI__.invoke('load_file', {{ filePath: '{}' }})",
-    //             path
-    //         ))
-    //         .unwrap();
-    // }
 }
 
 // #[tauri::command]

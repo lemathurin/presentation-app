@@ -12,9 +12,10 @@ const TextEditor: React.FC<TextEditorProps> = ({ text, setText }) => {
 
   return (
     <textarea
-      className="w-[90%] h-[90%] bg-red-300"
+      className="w-[100%] h-[100%] p-3 bg-background"
       value={text}
       onChange={handleChange}
+      placeholder="Type something..."
     />
   );
 };
