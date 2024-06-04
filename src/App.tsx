@@ -12,6 +12,7 @@ import { handleSaveFile } from "./components/FileActions";
 import { Button } from "./components/ui/button";
 import { listen } from "@tauri-apps/api/event";
 import { readTextFile } from "@tauri-apps/api/fs";
+import LeftSidebar from "./components/left-sidebar";
 
 function App() {
   const [text, setText] = useState<string>("");
@@ -81,16 +82,17 @@ function App() {
         >
           <ResizablePanel defaultSize={25} minSize={20} maxSize={40}>
             {/* add this later collapsible={true} */}
-            <div className="flex items-center justify-center h-full bg-secondary">
-              <ModeToggle />
-              <Button onClick={() => handleSaveFile(text, filePath)}>
-                Save File
-              </Button>
-            </div>
+            {/* <div className="flex h-full bg-secondary"> */}
+            <LeftSidebar text={text} />
+            {/* </div> */}
           </ResizablePanel>
           <ResizableHandle />
           <ResizablePanel defaultSize={75}>
             <TopBar />
+            <ModeToggle />
+            <Button onClick={() => handleSaveFile(text, filePath)}>
+              Save File
+            </Button>
             <div className="flex items-center justify-center h-full bg-primary-foreground">
               <TextEditor text={text} setText={setText} />
             </div>
